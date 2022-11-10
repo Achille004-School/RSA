@@ -5,20 +5,20 @@ import java.util.Random
 
 class RSA(private val bitLength: BitLengths) {
     enum class BitLengths(val bits: Int) {
-        WEAKER(32),
-        WEAK(64),
-        NORMAL(128),
-        STRONG(256),
-        STRONGER(512)
+        WEAK(512),
+        NORMAL(1024),
+        STRONG(2048),
     }
 
     private val rand = Random()
 
     private var p: BigInteger
     private var q: BigInteger
-    var n: BigInteger private set
+    var n: BigInteger
+        private set
     private var phi: BigInteger
-    var e: BigInteger private set
+    var e: BigInteger
+        private set
     private var d: BigInteger
 
     init {
@@ -26,7 +26,7 @@ class RSA(private val bitLength: BitLengths) {
         p = generatePrime()
         do {
             q = generatePrime()
-        } while(q == p)
+        } while (q == p)
 
         // Compute n = pq
         n = p * q
@@ -46,7 +46,7 @@ class RSA(private val bitLength: BitLengths) {
         d = e.modInverse(phi)
     }
 
-    fun privateKeyParse(num: BigInteger):BigInteger {
+    fun privateKeyParse(num: BigInteger): BigInteger {
         return num.modPow(d, n)
     }
 
@@ -57,6 +57,7 @@ class RSA(private val bitLength: BitLengths) {
 
     // function to calculate l.c.m
     private fun lcm(a: BigInteger, b: BigInteger): BigInteger {
-        return if (a.signum() != 0 && b.signum() != 0) a.divide(a.gcd(b)).multiply(b).abs() else BigInteger.ZERO
+        return if (a.signum() != 0 && b.signum() != 0) a.divide(a.gcd(b)).multiply(b).abs()
+        else BigInteger.ZERO
     }
 }

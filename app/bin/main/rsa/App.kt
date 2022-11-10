@@ -1,5 +1,5 @@
 package rsa
 
 fun main() {
-    RSA()
+    Peer().run()
 }
