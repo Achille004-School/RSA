@@ -5,9 +5,9 @@ import java.util.Random
 
 class RSA(private val bitLength: BitLengths) {
     enum class BitLengths(val bits: Int) {
-        WEAK(512),
-        NORMAL(1024),
-        STRONG(2048),
+        WEAK(1024),
+        NORMAL(2048),
+        STRONG(4096),
     }
 
     private val rand = Random()
@@ -40,7 +40,7 @@ class RSA(private val bitLength: BitLengths) {
         do {
             e = generatePrime()
         } while (!(e < phi && e.gcd(phi).equals(BigInteger.ONE)))
-
+        
         // private key
         // Compute d, the modular multiplicative inverse of e mod phi
         d = e.modInverse(phi)
@@ -52,7 +52,7 @@ class RSA(private val bitLength: BitLengths) {
 
     // numbers go from 64 digits to 128
     private fun generatePrime(): BigInteger {
-        return BigInteger.probablePrime(bitLength.bits, rand)
+        return BigInteger.probablePrime(bitLength.bits / 2, rand)
     }
 
     // function to calculate l.c.m
